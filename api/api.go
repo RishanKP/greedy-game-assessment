@@ -7,7 +7,7 @@ import (
 )
 
 type mydb struct {
-  value   string
+  value   int
   expires time.Time
   exists  bool
 }
@@ -101,7 +101,7 @@ func ProcessCommand(strs []string) (error,int,string){
   if command == "GET"{
     key := strs[1]
     if myMap[key].exists && time.Now().Before(myMap[key].expires){
-      return nil,200,myMap[key].value
+      return nil,200,strconv.Itoa(myMap[key].value)
     }else{
       return errors.New("key not found"),404,""
     }
@@ -116,20 +116,4 @@ func ProcessCommand(strs []string) (error,int,string){
   }
 
   return errors.New("invalid command"),400,""
-}
-
-func checkExistence(a,condition string) error{
-  if condition == "NX"{
-    if myMap[a].exists {
-      return errors.New("key already exist")
-    }
-  }else if condition == "XX" {
-    if !myMap[a].exists {
-      return errors.New("key not found")
-    }
-  }else{
-    return errors.New("invalid argument")
-  }
-
-  return nil
 }

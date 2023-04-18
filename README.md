@@ -1,7 +1,7 @@
 # greedy-game-assessment
 api path:
 /
-</br>
+<br>
 content-type:
 application/json
 
